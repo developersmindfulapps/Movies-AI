@@ -1,0 +1,5 @@
+@import "tailwindcss";
+
+.input-style {
+    @apply w-full border text-white border-[#535353] p-3 rounded-xl placeholder:text-[#8c8c8c]
+}
