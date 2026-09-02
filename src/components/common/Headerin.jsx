@@ -1,7 +1,19 @@
-const Headerin = () => {
-  return (
-    <div>After logged in</div>
-  )
-}
+import { auth } from "../../utils/firebase";
+import { signOut } from "firebase/auth";
 
-export default Headerin
+const Headerin = () => {
+
+  const signOutFn = async () => {
+    await signOut(auth)
+      .then(() => {})
+      .catch((err) => console.log("in err", err));
+  };
+
+  return (
+    <div>
+      <button onClick={signOutFn}>Sign out</button>
+    </div>
+  );
+};
+
+export default Headerin;

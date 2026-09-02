@@ -1,23 +1,63 @@
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
 import { useRef, useState } from "react";
+import { auth } from "../utils/firebase";
 
 const Bodyout = () => {
   const [isSignInForm, setSignInForm] = useState(true);
   const [validationMsg, setValidationMsg] = useState("");
 
+  const displayName = useRef(null);
   const email = useRef(null);
   const password = useRef(null);
 
   const changeForm = () => {
-    setValidationMsg('')
+    setValidationMsg("");
     setSignInForm(!isSignInForm);
   };
 
-  const handleFormSubmission = () => {
+  const handleFormSubmission = async () => {
     const message =
       !email.current.value || !password.current.value
         ? "Invalid Form Details"
         : "";
-    setValidationMsg(message);
+    if (message) {
+      setValidationMsg(message);
+      return;
+    }
+
+    if (!isSignInForm) {
+      try {
+        await createUserWithEmailAndPassword(
+          auth,
+          email.current.value,
+          password.current.value,
+        );
+        updateProfile(auth.currentUser, {
+          displayName: displayName.current.value,
+          photoURL: "https://example.com/jane-q-user/profile.jpg",
+        })
+          .then(() => {
+          })
+          .catch((error) => {
+            setValidationMsg(error.message);
+          });
+      } catch (error) {
+        setValidationMsg(error.message);
+      }
+    } else {
+        await signInWithEmailAndPassword(
+          auth,
+          email.current.value,
+          password.current.value,
+        ).then().catch((error) => {
+          console.log(error)
+          setValidationMsg(error.message);
+        });
+    }
   };
 
   return (
@@ -27,9 +67,7 @@ const Bodyout = () => {
         src="https://assets.nflxext.com/ffe/siteui/vlv3/a00fdfd7-4916-4f12-b5ff-c05b9d7b4d07/web/IN-en-20260824-TRIFECTA-perspective_26443db2-0249-420d-bb73-77cfeea330e5_large.jpg"
         alt=""
       />
-      <div
-        className="z-2 w-full p-2 mx-2 sm:w-[75%] lg:rounded-[70px] lg:w-[50%] m-auto min-h-max opacity-90 relative bg-[#441519] bg-[linear-gradient(236deg,rgba(68,21,25,1)_0%,rgba(10,1,2,1)_100%)]"
-      >
+      <div className="z-2 w-full p-2 mx-2 sm:w-[75%] lg:rounded-[70px] lg:w-[50%] m-auto min-h-max opacity-90 relative bg-[#441519] bg-[linear-gradient(236deg,rgba(68,21,25,1)_0%,rgba(10,1,2,1)_100%)]">
         <form
           action={handleFormSubmission}
           className="flex flex-col gap-4  py-20 w-[50%] m-auto"
@@ -42,7 +80,14 @@ const Bodyout = () => {
               Or Sign Up for a new account
             </h4>
           </div>
-
+          {!isSignInForm && (
+            <input
+              ref={displayName}
+              className="input-style "
+              type="text"
+              placeholder="Name"
+            />
+          )}
           <input
             ref={email}
             className="input-style "
@@ -53,7 +98,7 @@ const Bodyout = () => {
             ref={password}
             className="input-style "
             type="password"
-            placeholder="password"
+            placeholder="Password"
           />
 
           <button
@@ -63,8 +108,9 @@ const Bodyout = () => {
             <span>{isSignInForm ? "Sign In" : "Sign Up"}</span>
           </button>
 
-          {validationMsg && <h5 className="text-red-800 font-bold italic">{validationMsg}</h5>}
-
+          {validationMsg && (
+            <h5 className="text-red-800 font-bold italic">{validationMsg}</h5>
+          )}
 
           {isSignInForm ? (
             <span className="mt-2 text-white font-extralight">
