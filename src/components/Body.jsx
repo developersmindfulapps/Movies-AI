@@ -16,7 +16,7 @@ const Body = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         userDetails(user)
         signIn()
@@ -26,7 +26,9 @@ const Body = () => {
         clearStore()
         navigate('/');
       }
-    });
+    })
+    return () => unsubscribe
+    ;
   }, []);
 
   return <div>{isSignedIn ? <Browse /> : <Bodyout />}</div>;

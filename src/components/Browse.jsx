@@ -1,6 +1,10 @@
+import { useLoaderData } from "react-router";
+
 const Browse = () => {
+  const movies = useLoaderData()
+  console.log('In component - ', movies)
   return (
-    <div>Browse</div>
+    <div>Hellooo</div>
   )
 }
 
