@@ -3,10 +3,12 @@ import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 
 const moviesData = create(devtools((set) => ({
-    moviesList: {},
+    moviesList: [],
     trailer: {},
-    addMovieData: (movie) => (() => ({ moviesList: movie })),
-    addToTrailer: (movie) => (() => ({ trailer: movie }))
-})))
+    addMovieData: (movie) => set(() => ({ moviesList: movie })),
+    addToTrailer: (movie) => set(() => ({ trailer: movie }))
+}), { name: "Netflix App", store: "movies" }
+
+))
 
 export default moviesData;

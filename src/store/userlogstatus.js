@@ -8,6 +8,6 @@ const userSignInStatus = create(devtools((set) => ({
     removeUserDetails: () => set({ userObject: null }),
     signInuser: () => set({ isSignIn: true }),
     signOutUser: () => set({ isSignIn: false })
-})))
+}),{ name: "Netflix App", store: "auth" }))
 
 export default userSignInStatus;

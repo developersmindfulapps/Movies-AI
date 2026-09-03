@@ -19,7 +19,9 @@ function App() {
       if (user) {
         userDetails(user);
         signIn();
-        navigate("/browse");
+        if (location.pathname !== "/browse") {
+          navigate("/browse", { replace: true });
+        }
       } else {
         signOut();
         clearStore();

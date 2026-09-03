@@ -51,10 +51,9 @@ const Bodyout = () => {
     } else {
         await signInWithEmailAndPassword(
           auth,
-          email.current.value,
-          password.current.value,
+          email?.current.value,
+          password?.current.value,
         ).then().catch((error) => {
-          console.log(error)
           setValidationMsg(error.message);
         });
     }

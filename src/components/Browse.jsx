@@ -1,10 +1,15 @@
-import { useLoaderData } from "react-router";
+import moviesData from "../store/moviesStore";
+import fetchTrailer from "../utils/trailerDataFetch";
+import Hero from "./Hero";
+import MovieName from "./MovieName";
 
 const Browse = () => {
-  const movies = useLoaderData()
-  console.log('In component - ', movies)
+  const movies = moviesData(state => state.moviesList)
+  fetchTrailer(movies[0].id);
   return (
-    <div>Hellooo</div>
+    <div><Hero />
+    <MovieName/>
+    </div>
   )
 }
 

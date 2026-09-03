@@ -10,11 +10,11 @@ const Headerin = () => {
   };
 
   return (
-      <div className="z-10 p-2 flex justify-between items-center relative z-2 bg-linear-to-b from-gray-400 ">
+      <div className="z-10 p-2 bg-linear-to-r from-gray-500 absolute top-0 flex justify-between items-center relative z-2  ">
         <img
           src={NETFLIX_LOGO}
           alt="logo"
-          className="p-[10px] bg-[radial-gradient(#c3bdbd0f,#ddd7d700)] w-38 h-auto sm: w-46 lg:w-56 rounded-3xl"
+          className="p-[10px] w-38 h-auto sm:w-46 lg:w-56 rounded-3xl"
         />
         <button className="bg-red-600 text-white p-2 rounded-xl font-bold hover:opacity-75 cursor-pointer" onClick={signOutFn}>Sign out</button>
       </div>
